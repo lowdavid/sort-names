@@ -27,17 +27,19 @@ namespace Sort.File {
 					log.Info( string.Format( "CreateSortedFile - {0}", message ) );
 
 				} else {
+
+					// Create FileInfo of input file path and attempt to parse, sort and create output file
 					IList<Name> names;
 					var inputFile = new FileInfo( inputFilePath );
 
 					if ( !inputFile.Exists ) {
-						// Cannot created sorted file if input file doesn't exist
+						// Cannot created sorted output file if input file doesn't exist
 
 						message = string.Format( "File doesn't exist: {0}", inputFilePath );
 						log.Info( string.Format( "CreateSortedFile - {0}", message ) );
 
 					} else if ( !inputFile.TryParseFileNames( out names ) || names.Count == 0 ) {
-						// Cannot created sorted file if input file cannot be parsed into names list
+						// Cannot created sorted output file if input file cannot be parsed into names list
 
 						message = string.Format( "File doesn't contain comma separated last and first names: {0}", inputFilePath );
 						log.Info( string.Format( "CreateSortedFile - {0}", message ) );
@@ -49,11 +51,23 @@ namespace Sort.File {
 						outputFile = new FileInfo( outputFilePath );
 						using ( var writer = outputFile.CreateText() ) {
 							foreach ( var item in names.OrderBy( n => n.LastName ).ThenBy( n => n.FirstName ) ) {
-								writer.WriteLine( string.Format( "{0}, {1}", item.LastName, item.FirstName ) );
+
+								// Each line to ouput after sorting
+								var outputLine = string.Format( "{0}, {1}", item.LastName, item.FirstName );
+
+								// Write to output file
+								writer.WriteLine( outputLine );
+
+								// Write to console
+								Console.WriteLine( outputLine );
+
+								// Write debug information to log file
+								log.Debug( string.Format( "CreateSortedFile - {0}", message ) );
 							}
 						}
 
-						message = string.Format( "Created file of names sorted by last then first names: {0}", outputFile.FullName );
+						// Create appropriate message to display on return
+						message = string.Format( "Finished: created: {0}", outputFile.FullName );
 						log.Info( string.Format( "CreateSortedFile - {0}", message ) );
 					}
 				}

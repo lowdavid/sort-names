@@ -6,7 +6,7 @@ using System.Text;
 using Common.Logging;
 using Sort.File;
 
-namespace Sort.App {
+namespace Sort {
 	public class Program {
 		private static readonly ILog log = LogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
 
@@ -14,12 +14,16 @@ namespace Sort.App {
 			log.Info( string.Format( "sort-names - executed with {0} argument: {1}", args.Length, string.Join( ",", args ) ) );
 
 			if ( args == null || args.Length != 1 ) {
+
+				// Show usage if called incorrectly
 				Console.WriteLine( "Usage" );
 				Console.WriteLine( "- requires one parameter that represents a text file containing a list of names." );
 				Console.WriteLine( "- the text file names are last name then first name, separated by a comma." );
 				Console.WriteLine( "- will write a text file containing list of names sorted by last name then first name." );
 				Console.WriteLine( "- output text file will be named <input-file-name>-sorted.txt at the same location." );
 			} else {
+
+				// Parse the name file, parser will return appropriate message to display, also output FileInfo of created output file
 				var parser = new NameFileParser();
 				FileInfo outputFile;
 				var message = parser.CreateSortedFile( args[0], out outputFile );

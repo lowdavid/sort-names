@@ -22,13 +22,17 @@ namespace Sort.File {
 					// go to - https://msdn.microsoft.com/en-us/library/microsoft.visualbasic.fileio.textfieldparser.aspx
 					using ( FileStream stream = @this.OpenRead() ) {
 						using ( TextFieldParser csv = new TextFieldParser( stream ) ) {
+
+							// Configure to parse comma delimited fields, fields may be enclosed in quotes for field values including commas and trim white space
 							csv.TextFieldType = FieldType.Delimited;
-							csv.TrimWhiteSpace = true;
-							csv.HasFieldsEnclosedInQuotes = true;
 							csv.Delimiters = new string[] { "," };
+							csv.HasFieldsEnclosedInQuotes = true;
+							csv.TrimWhiteSpace = true;
 
 							while ( !csv.EndOfData ) {
+								// Read the fields for each row defined by line break until end of file, number of fields can differ per row
 								var row = csv.ReadFields();
+
 								// Allow for any number of fields, assume last name is first field, first name is last field
 								var lastName = row[0];
 								var firstName = row[row.Length - 1];

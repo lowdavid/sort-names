@@ -99,7 +99,7 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.Exists );
 			var changedFileName = string.Format( @"{0}\{1}-sorted.txt", badFileInfo.DirectoryName, badFileInfo.Name.Replace( badFileInfo.Extension, "" ) );
 			Assert.IsTrue( outputFile.FullName == changedFileName );
-			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
+			Assert.IsTrue( message.StartsWith( "Finished: created: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
 
 			// Assert the contents of outputFile
@@ -132,7 +132,7 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.Exists );
 			var changedFileName = string.Format( @"{0}\{1}-sorted.txt", testFileInfo.DirectoryName, testFileInfo.Name.Replace( testFileInfo.Extension, "" ) );
 			Assert.IsTrue( outputFile.FullName == changedFileName );
-			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
+			Assert.IsTrue( message.StartsWith( "Finished: created: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
 
 			// Assert the contents of outputFile
@@ -165,7 +165,7 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.Exists );
 			var changedFileName = string.Format( @"{0}\{1}-sorted.txt", testFileInfo.DirectoryName, testFileInfo.Name.Replace( testFileInfo.Extension, "" ) );
 			Assert.IsTrue( outputFile.FullName == changedFileName );
-			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
+			Assert.IsTrue( message.StartsWith( "Finished: created: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
 
 			// Assert the contents of outputFile
@@ -198,7 +198,7 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.Exists );
 			var changedFileName = string.Format( @"{0}\{1}-sorted.txt", testFileInfo.DirectoryName, testFileInfo.Name.Replace( testFileInfo.Extension, "" ) );
 			Assert.IsTrue( outputFile.FullName == changedFileName );
-			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
+			Assert.IsTrue( message.StartsWith( "Finished: created: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
 
 			// Assert the contents of outputFile
