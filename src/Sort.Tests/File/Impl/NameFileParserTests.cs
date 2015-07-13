@@ -101,6 +101,21 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.FullName == changedFileName );
 			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
+
+			// Assert the contents of outputFile
+			IList<string> outputLines = new List<string>();
+			try {
+				using ( var reader = outputFile.OpenText() ) {
+					while ( !reader.EndOfStream ) {
+						outputLines.Add( reader.ReadLine() );
+					}
+				}
+			} catch ( Exception ex ) {
+				log.Error( string.Format( "CreateSortedFileTest - could not read output file: {0}", outputFile.FullName ), ex );
+			}
+			Assert.IsTrue( outputLines.Count == 4 );
+			Assert.IsTrue( outputLines[0] == ", " );
+			Assert.IsTrue( outputLines[3] == ", " );
 		}
 
 		[Test]
@@ -126,6 +141,21 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.FullName == changedFileName );
 			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
+
+			// Assert the contents of outputFile
+			IList<string> outputLines = new List<string>();
+			try {
+				using ( var reader = outputFile.OpenText() ) {
+					while ( !reader.EndOfStream ) {
+						outputLines.Add( reader.ReadLine() );
+					}
+				}
+			} catch ( Exception ex ) {
+				log.Error( string.Format( "CreateSortedFileTest - could not read output file: {0}", outputFile.FullName ), ex );
+			}
+			Assert.IsTrue( outputLines.Count == 4 );
+			Assert.IsTrue( outputLines[0] == "BAKER, ANDREW" );
+			Assert.IsTrue( outputLines[3] == "SMITH, FREDRICK" );
 		}
 
 		[Test]
@@ -151,6 +181,21 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.FullName == changedFileName );
 			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
+
+			// Assert the contents of outputFile
+			IList<string> outputLines = new List<string>();
+			try {
+				using ( var reader = outputFile.OpenText() ) {
+					while ( !reader.EndOfStream ) {
+						outputLines.Add( reader.ReadLine() );
+					}
+				}
+			} catch ( Exception ex ) {
+				log.Error( string.Format( "CreateSortedFileTest - could not read output file: {0}", outputFile.FullName ), ex );
+			}
+			Assert.IsTrue( outputLines.Count == 4 );
+			Assert.IsTrue( outputLines[0] == "BAKER ANDREW, BAKER ANDREW" );
+			Assert.IsTrue( outputLines[3] == "SMITH FREDRICK, SMITH FREDRICK" );
 		}
 
 		[Test]
@@ -176,6 +221,21 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile.FullName == changedFileName );
 			Assert.IsTrue( message.StartsWith( "Created file of names sorted by last then first names: " ) );
 			Assert.IsTrue( message.EndsWith( changedFileName ) );
+
+			// Assert the contents of outputFile
+			IList<string> outputLines = new List<string>();
+			try {
+				using ( var reader = outputFile.OpenText() ) {
+					while ( !reader.EndOfStream ) {
+						outputLines.Add( reader.ReadLine() );
+					}
+				}
+			} catch ( Exception ex ) {
+				log.Error( string.Format( "CreateSortedFileTest - could not read output file: {0}", outputFile.FullName ), ex );
+			}
+			Assert.IsTrue( outputLines.Count == 4 );
+			Assert.IsTrue( outputLines[0] == "BAKER, ANDREW" );
+			Assert.IsTrue( outputLines[3] == "SMITH, FREDRICK" );
 		}
 	}
 }

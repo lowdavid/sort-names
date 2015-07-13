@@ -94,3 +94,6 @@ node_modules/
 # Office Temp Files
 ~$*
 
+/sample/*.txt
+!sample/names.txt
+
