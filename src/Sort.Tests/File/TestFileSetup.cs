@@ -138,5 +138,21 @@ namespace Sort.Tests.File {
 
 			return file;
 		}
+
+		public IList<string> ReadOutputFileInfo( FileInfo outputFile ) {
+			IList<string> lines = new List<string>();
+
+			try {
+				using ( var reader = outputFile.OpenText() ) {
+					while ( !reader.EndOfStream ) {
+						lines.Add( reader.ReadLine() );
+					}
+				}
+			} catch ( Exception ex ) {
+				log.Error( string.Format( "ReadOutputFileInfo - could not read output file: {0}", outputFile.FullName ), ex );
+			}
+
+			return lines;
+		}
 	}
 }

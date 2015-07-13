@@ -69,6 +69,10 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( names.Count == 4 );
 			Assert.IsTrue( names[0].FirstName == "" );
 			Assert.IsTrue( names[0].LastName == "" );
+			Assert.IsTrue( names[1].FirstName == "" );
+			Assert.IsTrue( names[1].LastName == "" );
+			Assert.IsTrue( names[2].FirstName == "" );
+			Assert.IsTrue( names[2].LastName == "" );
 			Assert.IsTrue( names[3].FirstName == "" );
 			Assert.IsTrue( names[3].LastName == "" );
 		}
@@ -85,6 +89,10 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( names.Count == 4 );
 			Assert.IsTrue( names[0].FirstName == "FREDRICK" );
 			Assert.IsTrue( names[0].LastName == "SMITH" );
+			Assert.IsTrue( names[1].FirstName == "ANDREW" );
+			Assert.IsTrue( names[1].LastName == "BAKER" );
+			Assert.IsTrue( names[2].FirstName == "MADISON" );
+			Assert.IsTrue( names[2].LastName == "KENT" );
 			Assert.IsTrue( names[3].FirstName == "ANDREW" );
 			Assert.IsTrue( names[3].LastName == "SMITH" );
 		}
@@ -101,6 +109,10 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( names.Count == 4 );
 			Assert.IsTrue( names[0].FirstName == "SMITH FREDRICK" );
 			Assert.IsTrue( names[0].LastName == "SMITH FREDRICK" );
+			Assert.IsTrue( names[1].FirstName == "BAKER ANDREW" );
+			Assert.IsTrue( names[1].LastName == "BAKER ANDREW" );
+			Assert.IsTrue( names[2].FirstName == "KENT MADISON" );
+			Assert.IsTrue( names[2].LastName == "KENT MADISON" );
 			Assert.IsTrue( names[3].FirstName == "SMITH ANDREW" );
 			Assert.IsTrue( names[3].LastName == "SMITH ANDREW" );
 		}
@@ -117,6 +129,10 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( names.Count == 4 );
 			Assert.IsTrue( names[0].FirstName == "FREDRICK" );
 			Assert.IsTrue( names[0].LastName == "SMITH" );
+			Assert.IsTrue( names[1].FirstName == "ANDREW" );
+			Assert.IsTrue( names[1].LastName == "BAKER" );
+			Assert.IsTrue( names[2].FirstName == "MADISON" );
+			Assert.IsTrue( names[2].LastName == "KENT" );
 			Assert.IsTrue( names[3].FirstName == "ANDREW" );
 			Assert.IsTrue( names[3].LastName == "SMITH" );
 		}
