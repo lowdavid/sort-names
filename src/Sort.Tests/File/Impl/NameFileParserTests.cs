@@ -171,10 +171,10 @@ namespace Sort.Tests.File {
 			// Assert the contents of outputFile
 			IList<string> outputLines = setup.ReadOutputFileInfo( outputFile );
 			Assert.IsTrue( outputLines.Count == 4 );
-			Assert.IsTrue( outputLines[0] == "BAKER, ANDREW" );
-			Assert.IsTrue( outputLines[1] == "KENT, MADISON" );
-			Assert.IsTrue( outputLines[2] == "SMITH, ANDREW" );
-			Assert.IsTrue( outputLines[3] == "SMITH, FREDRICK" );
+			Assert.IsTrue( outputLines[0] == "BAKER ANDREW, BAKER ANDREW" );
+			Assert.IsTrue( outputLines[1] == "KENT MADISON, KENT MADISON" );
+			Assert.IsTrue( outputLines[2] == "SMITH ANDREW, SMITH ANDREW" );
+			Assert.IsTrue( outputLines[3] == "SMITH FREDRICK, SMITH FREDRICK" );
 		}
 
 		[Test]
