@@ -5,8 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Logging;
+using NUnit.Core;
 using NUnit.Framework;
+using Rhino.Mocks;
 using Sort.File;
+using Sort.Model;
 
 namespace Sort.Tests.File {
 	[TestFixture]
@@ -15,20 +18,22 @@ namespace Sort.Tests.File {
 
 		private TestFileSetup setup;
 		private NameFileParser parser;
+		private MockRepository mocks;
+		private NameFileParser mockedParser;
 
 		[SetUp]
 		public void SetupTests() {
 			setup = new TestFileSetup();
 			parser = new NameFileParser();
+			mocks = new MockRepository();
+			mockedParser = mocks.PartialMock<NameFileParser>();
 		}
 
 		[Test]
 		public void CreateSortedNullFileTest() {
-			FileInfo nullFileInfo = null;
-
 			FileInfo outputFile;
 			var message = parser.CreateSortedFile( null, out outputFile );
-			log.Debug( string.Format( "CreateSortedNullFileTest - sorted null file: {0}", nullFileInfo = null ) );
+			log.Debug( string.Format( "CreateSortedNullFileTest - sorted null input file path" ) );
 
 			Assert.IsTrue( outputFile == null );
 			Assert.IsTrue( message.Equals( "File path not specified" ) );
@@ -76,6 +81,26 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputFile == null );
 			Assert.IsTrue( message.StartsWith( "File doesn't contain comma separated last and first names: " ) );
 			Assert.IsTrue( message.EndsWith( emptyFileInfo.FullName ) );
+		}
+
+		[Test]
+		public void CreateSortedFileMockedTryParseFailTest() {
+			FileInfo testFileInfo = setup.CreateTestFileInfo();
+
+			IList<Name> outNames = new List<Name>();
+			mockedParser.Expect( x => x.TryParseFileNames( Arg<FileInfo>.Is.Anything, out Arg<IList<Name>>.Out( outNames ).Dummy ) ).Return( false );
+
+			mocks.ReplayAll();
+
+			FileInfo outputFile;
+			var message = mockedParser.CreateSortedFile( testFileInfo.FullName, out outputFile );
+			log.Debug( string.Format( "CreateSortedFileTest - sorted test file: {0}", testFileInfo.FullName ) );
+
+			mocks.VerifyAll();
+
+			Assert.IsTrue( outputFile == null );
+			Assert.IsTrue( message.StartsWith( "File doesn't contain comma separated last and first names: " ) );
+			Assert.IsTrue( message.EndsWith( testFileInfo.FullName ) );
 		}
 
 		[Test]
@@ -142,6 +167,61 @@ namespace Sort.Tests.File {
 			Assert.IsTrue( outputLines[1] == "KENT, MADISON" );
 			Assert.IsTrue( outputLines[2] == "SMITH, ANDREW" );
 			Assert.IsTrue( outputLines[3] == "SMITH, FREDRICK" );
+		}
+
+		[Test]
+		public void CreateSortedFileMockedTryParseSuccessTest() {
+			FileInfo testFileInfo = setup.CreateTestFileInfo();
+
+			var names = new List<Name>() { new Name( "ANDREW", "BAKER" ), new Name( "MADISON", "KENT" ), new Name( "ANDREW", "SMITH" ), new Name( "FREDRICK", "SMITH" ) };
+			mockedParser.Expect( x => x.TryParseFileNames( Arg<FileInfo>.Is.Anything, out Arg<IList<Name>>.Out( names ).Dummy ) ).Return( true );
+
+			mocks.ReplayAll();
+
+			FileInfo outputFile;
+			var message = mockedParser.CreateSortedFile( testFileInfo.FullName, out outputFile );
+			log.Debug( string.Format( "CreateSortedFileTest - sorted test file: {0}", testFileInfo.FullName ) );
+
+			mocks.VerifyAll();
+
+			Assert.IsTrue( outputFile != null );
+			Assert.IsTrue( outputFile.Exists );
+			var changedFileName = string.Format( @"{0}\{1}-sorted.txt", testFileInfo.DirectoryName, testFileInfo.Name.Replace( testFileInfo.Extension, "" ) );
+			Assert.IsTrue( outputFile.FullName == changedFileName );
+			Assert.IsTrue( message.StartsWith( "Finished: created: " ) );
+			Assert.IsTrue( message.EndsWith( changedFileName ) );
+
+			// Assert the contents of outputFile
+			IList<string> outputLines = setup.ReadOutputFileInfo( outputFile );
+			Assert.IsTrue( outputLines.Count == 4 );
+			Assert.IsTrue( outputLines[0] == "BAKER, ANDREW" );
+			Assert.IsTrue( outputLines[1] == "KENT, MADISON" );
+			Assert.IsTrue( outputLines[2] == "SMITH, ANDREW" );
+			Assert.IsTrue( outputLines[3] == "SMITH, FREDRICK" );
+		}
+
+		[Test]
+		public void CreateSortedFileMockedWriteLinesToFileTest() {
+			FileInfo testFileInfo = setup.CreateTestFileInfo();
+
+			FileInfo nonExistingFileInfo = setup.CreateNonExistingTestFileInfo();
+			var nonExistingFileName = nonExistingFileInfo.FullName;
+			var returnMessage = string.Format( "Finished: created: {0}", nonExistingFileName );
+			mockedParser.Expect( x => x.WriteLinesToFile( Arg<FileInfo>.Is.Anything, Arg<IList<string>>.Is.Anything, out Arg<FileInfo>.Out( nonExistingFileInfo ).Dummy ) ).Return( returnMessage );
+
+			mocks.ReplayAll();
+
+			FileInfo outputFile;
+			var message = mockedParser.CreateSortedFile( testFileInfo.FullName, out outputFile );
+			log.Debug( string.Format( "CreateSortedFileTest - sorted test file: {0}", testFileInfo.FullName ) );
+
+			mocks.VerifyAll();
+
+			Assert.IsTrue( outputFile != null );
+			Assert.IsFalse( outputFile.Exists );
+			Assert.IsTrue( outputFile.FullName == nonExistingFileName );
+			Assert.IsTrue( message.StartsWith( "Finished: created: " ) );
+			Assert.IsTrue( message.EndsWith( nonExistingFileName ) );
 		}
 
 		[Test]

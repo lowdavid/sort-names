@@ -11,31 +11,31 @@ namespace Sort.Tests.File {
 	public class TestFileSetup {
 		private static readonly ILog log = LogManager.GetLogger( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType );
 
-		private string testPath;
+		private string _testPath;
 
 		public TestFileSetup() {
-			testPath = ConfigurationManager.AppSettings["testPath"];
-			log.Info( string.Format( "TestFileSetup - read testPath from appSettings: {0}", testPath ) );
+			_testPath = ConfigurationManager.AppSettings["testPath"];
+			log.Info( string.Format( "TestFileSetup - read testPath from appSettings: {0}", _testPath ) );
 			try {
-				if ( !Directory.Exists( testPath ) ) {
-					Directory.CreateDirectory( testPath );
+				if ( !Directory.Exists( _testPath ) ) {
+					Directory.CreateDirectory( _testPath );
 				}
 			} catch ( Exception ex ) {
-				log.Error( string.Format( "TestFileSetup - could not create directory for test file: {0}", testPath ), ex );
-				testPath = null;
+				log.Error( string.Format( "TestFileSetup - could not create directory for test file: {0}", _testPath ), ex );
+				_testPath = null;
 			}
-			if ( string.IsNullOrEmpty( testPath ) ) {
-				testPath = Environment.CurrentDirectory;
+			if ( string.IsNullOrEmpty( _testPath ) ) {
+				_testPath = Environment.CurrentDirectory;
 			}
-			if ( testPath.EndsWith( @"\" ) ) {
-				testPath = testPath.TrimEnd( @"\".ToCharArray() );
+			if ( _testPath.EndsWith( @"\" ) ) {
+				_testPath = _testPath.TrimEnd( @"\".ToCharArray() );
 			}
 		}
 
 		public FileInfo CreateNonExistingTestFileInfo() {
 			FileInfo file = null;
 
-			var testFilePath = string.Format( @"{0}\testNonExisting.txt", testPath );
+			var testFilePath = string.Format( @"{0}\testNonExisting.txt", _testPath );
 			try {
 				file = new FileInfo( testFilePath );
 				if ( file.Exists ) {
@@ -51,7 +51,7 @@ namespace Sort.Tests.File {
 		public FileInfo CreateEmptyTestFileInfo() {
 			FileInfo file = null;
 
-			var testFilePath = string.Format( @"{0}\testEmpty.txt", testPath );
+			var testFilePath = string.Format( @"{0}\testEmpty.txt", _testPath );
 			try {
 				file = new FileInfo( testFilePath );
 				using ( var writer = file.CreateText() ) {
@@ -67,7 +67,7 @@ namespace Sort.Tests.File {
 		public FileInfo CreateBadTestFileInfo() {
 			FileInfo file = null;
 
-			var testFilePath = string.Format( @"{0}\testBad.txt", testPath );
+			var testFilePath = string.Format( @"{0}\testBad.txt", _testPath );
 			try {
 				file = new FileInfo( testFilePath );
 				using ( var writer = file.CreateText() ) {
@@ -85,7 +85,7 @@ namespace Sort.Tests.File {
 		public FileInfo CreateTestFileInfo() {
 			FileInfo file = null;
 
-			var testFilePath = string.Format( @"{0}\test.txt", testPath );
+			var testFilePath = string.Format( @"{0}\test.txt", _testPath );
 			try {
 				file = new FileInfo( testFilePath );
 				using ( var writer = file.CreateText() ) {
@@ -104,7 +104,7 @@ namespace Sort.Tests.File {
 		public FileInfo CreateNoCommaTestFileInfo() {
 			FileInfo file = null;
 
-			var testFilePath = string.Format( @"{0}\testNoComma.txt", testPath );
+			var testFilePath = string.Format( @"{0}\testNoComma.txt", _testPath );
 			try {
 				file = new FileInfo( testFilePath );
 				using ( var writer = file.CreateText() ) {
@@ -123,7 +123,7 @@ namespace Sort.Tests.File {
 		public FileInfo CreateLastMiddleFirstTestFileInfo() {
 			FileInfo file = null;
 
-			var testFilePath = string.Format( @"{0}\testLastMiddleFirst.txt", testPath );
+			var testFilePath = string.Format( @"{0}\testLastMiddleFirst.txt", _testPath );
 			try {
 				file = new FileInfo( testFilePath );
 				using ( var writer = file.CreateText() ) {
